@@ -85,7 +85,7 @@ module.exports = async function() {
     // Fill order
     const txHash = await contractWrappers.exchange
       .fillOrder(signedOrder, makerAssetAmount, signedOrder.signature)
-      .sendTransactionAsync({ from: takerAddress, gas: 6700000, value: 3000000000000000 });
+      .sendTransactionAsync({ from: takerAddress, gas: 6700000, value: 3000000000000000 }); // value is required to pay 0x fees
     console.log('txHash:', txHash);
   } catch(e) {
     console.log(e);
