@@ -3,7 +3,7 @@ const {
   Web3ProviderEngine,
 } = require('@0x/subproviders');
 
-const { generatePseudoRandomSalt, Order, orderHashUtils, signatureUtils, SignedOrder } = require('@0x/order-utils');
+const { generatePseudoRandomSalt, Order, orderHashUtils, signatureUtils, SignedOrder, assetDataUtils } = require('@0x/order-utils');
 const { ContractWrappers } = require('@0x/contract-wrappers');
 const { Web3Wrapper } = require('@0x/web3-wrapper');
 const { BigNumber } = require('@0x/utils');
@@ -31,7 +31,6 @@ module.exports = async function() {
     const contractWrappers = new ContractWrappers(provider, { chainId });
     const web3Wrapper = new Web3Wrapper(provider);
 
-    const utils = await AssetDataUtils.deployed();
     const fakeToken = await FakeToken.deployed();
     const collateralToken = await CollateralToken.deployed();
     const minterBridge = await MinterBridge.deployed();
@@ -45,7 +44,8 @@ module.exports = async function() {
     // We use CollateralToken
     const takerToken = {address: collateralToken.address, decimals: 18};
     // Encode the selected makerToken as assetData for 0x
-    const makerAssetData = await utils.encodeBridgeAssetData(makerToken.address, minterBridge.address, '0x0')
+    const makerAssetData = assetDataUtils.encodeERC20BridgeAssetData(makerToken.address, minterBridge.address, '0x0000');
+    console.log('decodeAssetDataOrThrow', assetDataUtils.decodeAssetDataOrThrow(makerAssetData));
     // console.log('makerAssetData:', makerAssetData);
     // Encode the selected takerToken as assetData for 0x
     const takerAssetData = await contractWrappers.devUtils.encodeERC20AssetData(takerToken.address).callAsync();
