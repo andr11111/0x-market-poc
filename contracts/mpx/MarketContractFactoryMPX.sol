@@ -14,7 +14,7 @@
     limitations under the License.
 */
 
-pragma solidity 0.5.2;
+pragma solidity ^0.5.9;
 
 import "./MarketContractMPX.sol";
 import "../MarketContractRegistryInterface.sol";
@@ -44,7 +44,7 @@ contract MarketContractFactoryMPX is Ownable {
         require(registryAddress != address(0), "registryAddress can not be null");
         require(collateralPoolAddress != address(0), "collateralPoolAddress can not be null");
         require(oracleHubAddress != address(0), "oracleHubAddress can not be null");
-        
+
         marketContractRegistry = registryAddress;
         MARKET_COLLATERAL_POOL = collateralPoolAddress;
         oracleHub = oracleHubAddress;
